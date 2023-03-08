@@ -2,7 +2,7 @@ pipeline {
 
   environment {
     PROJECT = "sandbox-io-289003"
-    APP_NAME = "gceme"
+    APP_NAME = "newjenkinsagent"
     FE_SVC_NAME = "${APP_NAME}-frontend"
     CLUSTER = "jenkins-cd"
     CLUSTER_ZONE = "us-east1-d"
@@ -10,57 +10,67 @@ pipeline {
     JENKINS_CRED = "${PROJECT}"
   }
 
-  agent {
+agent {
     kubernetes {
-      label 'sample-app'
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-labels:
-  component: ci
-spec:
-  # Use service account that can deploy to all namespaces
-  serviceAccountName: cd-jenkins
-  containers:
-  - name: golang
-    image: golang:1.10
-    command:
-    - cat
-    tty: true
-  - name: gcloud
-    image: gcr.io/cloud-builders/gcloud
-    command:
-    - cat
-    tty: true
-  - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
-    command:
-    - cat
-    tty: true
-"""
+        label "my-agent"
+        defaultContainer "jnlp"
+        yaml “”"
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              labels:
+                app: my-agent
+            spec:
+              serviceAccountName: my-jenkins
+              containers:
+              - name: nodejs
+                image: node:latest
+                command:
+                - cat
+                tty: true
+              - name: python
+                image: python:latest
+                command:
+                - cat
+                tty: true
+              - name: mysql
+                image: mysql:latest
+                command:
+                - cat
+                tty: true
+            “”"
 }
   }
   stages {
-    stage('Test') {
+    stage('Run MySQL') {
       steps {
-        container('golang') {
+        container('mysql') {
           sh """
-            ln -s `pwd` /go/src/sample-app
-            cd /go/src/sample-app
-            go test
+            sh 'mysql --version' // print MySQL version
+            sh 'mysql -u <username> -p<password> -h <host> -e “SHOW
+    DATABASES;“’ // execute a SQL query
           """
         }
       }
     }
-    stage('Build and push image with Container Builder') {
+    stage('Run Python') {
       steps {
-        container('gcloud') {
-          sh "PYTHONUNBUFFERED=1 gcloud builds submit -t ${IMAGE_TAG} ."
+        container('python') {
+          sh 'python --version' // print Python version
+          sh 'pip install -r requirements.txt' // install dependencies
+          sh 'python main.py' // run the main script
         }
       }
     }
+    stage('Run Node.js') {
+      steps {
+        container('nodejs') {
+          sh 'node --version' // print Node.js version
+          sh 'npm install' // install dependencies
+          sh 'npm run build' // build the project
+    }
+  }
+}
     stage('Deploy Canary') {
       // Canary branch
       when { branch 'canary' }
