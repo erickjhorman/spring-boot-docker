@@ -1,0 +1,74 @@
+pipeline {
+  environment {
+    PROJECT = "sandbox-io-289003"
+    APP_NAME = "Taj-App-1"
+    FE_SVC_NAME = "${APP_NAME}-frontend"
+    CLUSTER = "jenkins-cd"
+    CLUSTER_ZONE = "us-east1-c"
+    IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+    JENKINS_CRED = "${PROJECT}"
+  }
+
+  agent {
+    kubernetes {
+      label 'my-agent'
+      defaultContainer 'jnlp'
+      yaml """
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        labels:
+          app: my-agent
+      spec:
+        serviceAccountName: cd-jenkins
+        containers:
+        - name: nodejs
+          image: node:latest
+          command:
+          - cat
+          tty: true
+        - name: docker
+          image: docker:latest
+          command:
+          - cat
+          tty: true
+          - cat
+          tty: true
+        - name: python
+          image: python:latest
+          command:
+      """
+    }
+  }
+
+stages {
+
+    stage('Run Node.js') {
+      steps {
+        container('nodejs') {
+          sh 'pwd'
+        }
+      }
+    }
+
+stage('Run Python') {
+      steps {
+        container('python') {
+          sh 'pip list'
+        }
+      }
+    }
+
+    stage('Build and push image') {
+      steps {
+       container('docker') {
+        withCredentials([string(credentialsId: 'DOCKER_REGISTRY_CREDENTIALS', variable: 'DOCKER_LOGIN')]) {
+         sh '''
+          echo ${DOCKER_LOGIN} | docker login -u _json_key --password-stdin https://gcr.io
+          docker build . -t $IMAGE_TAG
+          docker tag $IMAGE_TAG gcr.io/$PROJECT/$APP_NAME:$BUILD_NUMBER
+          docker push gcr.io/$PROJECT/$APP_NAME:$BUILD_NUMBER
+        '''
+      }
+    }
+  }
