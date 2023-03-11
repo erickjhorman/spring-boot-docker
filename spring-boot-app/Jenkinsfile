@@ -4,7 +4,7 @@ pipeline {
     APP_NAME = "Taj-App-1"
     FE_SVC_NAME = "${APP_NAME}-frontend"
     CLUSTER = "jenkins-cd"
-    CLUSTER_ZONE = "us-east1-c"
+    CLUSTER_ZONE = "us-east1-d"
     IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
   }
@@ -54,7 +54,7 @@ stages {
     stage('Deployment') {
        steps {
         container('python') {
-          sh "date; echo"
+          sh "pip list"
         }
       }
     }
