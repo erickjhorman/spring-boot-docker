@@ -27,8 +27,8 @@ pipeline {
           command:
           - cat
           tty: true
-          - name: docker
-          image: docker:latest
+        - name: img
+          image: http://r.j3ss.co/img
           command:
           - cat
           tty: true
