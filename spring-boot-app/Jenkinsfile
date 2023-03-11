@@ -45,10 +45,10 @@ spec:
        steps {
         container('ubuntu') {
           sh "echo ${IMAGE_TAG}"
-          }
         }
       }
     }
+    
     stage('Deployment') {
        steps {
         container('python') {
@@ -56,4 +56,5 @@ spec:
         }
       }
     }
-}  
+  }
+}
