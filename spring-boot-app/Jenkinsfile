@@ -20,7 +20,7 @@ pipeline {
         labels:
           app: my-agent
       spec:
-        serviceAccountName: cd-jenkins
+        serviceAccountName: jenkins-k
         containers:
         - name: nodejs
           image: node:latest
@@ -37,6 +37,7 @@ pipeline {
         - name: python
           image: python:latest
           command:
+          tty: true
       """
     }
   }
@@ -59,7 +60,7 @@ stage('Run Python') {
       }
     }
 
-    stage('Build and push image') {
+    stage('Build and push Img') {
       steps {
        container('docker') {
         withCredentials([string(credentialsId: 'DOCKER_REGISTRY_CREDENTIALS', variable: 'DOCKER_LOGIN')]) {
