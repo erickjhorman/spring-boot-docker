@@ -51,8 +51,8 @@ stages {
       }
     }
 
-stage('Deployment') {
-      steps {
+    stage('Deployment') {
+       steps {
         container('python') {
           sh "date; echo"
         }
