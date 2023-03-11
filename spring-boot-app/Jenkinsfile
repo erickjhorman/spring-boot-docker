@@ -42,7 +42,6 @@ pipeline {
   }
 
 stages {
-
     stage('Comp') {
        steps {
         container('ubuntu') {
@@ -59,3 +58,4 @@ stage('Python') {
         }
       }
     }
+ } 
