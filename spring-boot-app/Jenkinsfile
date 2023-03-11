@@ -14,34 +14,33 @@ pipeline {
       label 'taj-agent'
       defaultContainer 'jnlp'
       yaml """
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        labels:
-          components: ci
-      spec:
-        serviceAccountName: cd-jenkins
-        containers:
-        - name: ubuntu
-          image: ubuntu 
-          command:
-          - cat
-          tty: true
-        - name: img
-          image: http://r.j3ss.co/img
-          command:
-          - cat
-          tty: true
-        - name: python
-          image: python:3
-          command:
-          - cat
-          tty: true
-      """
-    }
+apiVersion: v1
+kind: Pod
+metadata:
+labels:
+   components: ci
+spec:
+  serviceAccountName: cd-jenkins
+  containers:
+  - name: ubuntu
+    image: ubuntu 
+    command:
+    - cat
+    tty: true
+  - name: img
+    image: http://r.j3ss.co/img
+    command:
+    - cat
+    tty: true
+  - name: python
+    image: python:3
+    command:
+    - cat
+    tty: true
+"""
+}
   }
-
-stages {
+  stages {
     stage('Comp') {
        steps {
         container('ubuntu') {
@@ -50,12 +49,11 @@ stages {
         }
       }
     }
-
-     stage('Deployment') {
+    stage('Deployment') {
        steps {
         container('python') {
           sh "pip list"
         }
       }
     }
- } 
+}  
