@@ -12,7 +12,7 @@ pipeline {
   agent {
     kubernetes {
       label 'my-agent'
-      defaultContainer 'jnlp'
+      defaultContainer 'lyej'
       yaml """
       apiVersion: v1
       kind: Pod
@@ -37,6 +37,7 @@ pipeline {
         - name: python
           image: python:latest
           command:
+          - cat
           tty: true
       """
     }
@@ -44,7 +45,7 @@ pipeline {
 
 stages {
 
-    stage('mav') {
+    stage('comp') {
        steps {
         container('maven') {
           sh "pwd"
