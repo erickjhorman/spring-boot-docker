@@ -57,17 +57,3 @@ stage('Run Python') {
         }
       }
     }
-
-    stage('Build and push Img') {
-      steps {
-       container('docker') {
-        withCredentials([string(credentialsId: 'DOCKER_REGISTRY_CREDENTIALS', variable: 'DOCKER_LOGIN')]) {
-         sh '''
-          echo ${DOCKER_LOGIN} | docker login -u _json_key --password-stdin https://gcr.io
-          docker build . -t $IMAGE_TAG
-          docker tag $IMAGE_TAG gcr.io/$PROJECT/$APP_NAME:$BUILD_NUMBER
-          docker push gcr.io/$PROJECT/$APP_NAME:$BUILD_NUMBER
-        '''
-      }
-    }
-  }
