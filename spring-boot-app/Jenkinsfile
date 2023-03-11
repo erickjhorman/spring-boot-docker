@@ -20,20 +20,23 @@ metadata:
 labels:
    components: ci
 spec:
+  # Use service account that can deploy to all namespaces
   serviceAccountName: cd-jenkins
   containers:
-  - name: ubuntu
-    image: ubuntu 
-    command:
-    - cat
-    tty: true
-  - name: img
-    image: http://r.j3ss.co/img
+  - name:  ubuntu
+    image:  ubuntu
+    imagePullPolicy: IfNotPresent
     command:
     - cat
     tty: true
   - name: python
     image: python:3
+    command:
+    - cat
+    tty: true
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    imagePullPolicy: IfNotPresent
     command:
     - cat
     tty: true
