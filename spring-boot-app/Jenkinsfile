@@ -43,16 +43,17 @@ pipeline {
 
 stages {
 
-    stage('comp') {
+    stage('Comp') {
        steps {
         container('maven') {
-          sh "pwd"
+          sh "ls"
+          sh "echo ${IMAGE_TAG}"
           }
         }
       }
     }
 
-stage('Run Python') {
+stage('Python') {
       steps {
         container('python') {
           sh "date; echo "
