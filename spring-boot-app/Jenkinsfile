@@ -29,11 +29,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: python
-    image: python:3
-    command:
-    - cat
-    tty: true
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
     imagePullPolicy: IfNotPresent
@@ -54,6 +49,7 @@ spec:
     stage('Compilation') {
        steps {
         container('ubuntu') {
+          dir("spring-boot-app") { 
            sh "echo ${IMAGE_TAG}"
            sh "mvn clean install -DskipTests"
           }
@@ -63,22 +59,20 @@ spec:
      stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
+          dir("spring-boot-app") { 
            sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=${IMAGE_TAG}"
          }
+        } 
       }
     }
     stage('Deploy to kubernetes') {
       steps {
         container('kubectl') {
+          dir("spring-boot-app") { 
            sh "kubectl apply -f deployment.yaml"
           }
         }
       }
-    stage('python') {
-       steps {
-        container('python') {
-           sh "pip list"      
-       }
-     }
    }
-}
+  } 
+}  
