@@ -23,8 +23,8 @@ spec:
   # Use service account that can deploy to all namespaces
   serviceAccountName: cd-jenkins
   containers:
-  - name:  ubuntu
-    image:  ubuntu
+  - name:  maven
+    image:  maven
     imagePullPolicy: IfNotPresent
     command:
     - cat
@@ -51,6 +51,7 @@ spec:
         container('ubuntu') {
           dir("spring-boot-app") { 
            sh "echo ${IMAGE_TAG}"
+           sh "mvn clean install -DskipTests"
           }
         }
       }  
