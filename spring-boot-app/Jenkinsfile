@@ -58,14 +58,13 @@ spec:
            sh "mvn clean install -DskipTests"
           }
         }
-      }
+      }  
      } 
      stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
            sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=${IMAGE_TAG}"
          }
-        }
       }
     }
     stage('Deploy to kubernetes') {
@@ -80,5 +79,6 @@ spec:
         container('python') {
            sh "pip list"      
        }
+     }
    }
 }
