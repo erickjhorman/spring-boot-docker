@@ -48,7 +48,7 @@ spec:
   stages {
     stage('Compilation') {
        steps {
-        container('ubuntu') {
+        container('maven') {
           dir("spring-boot-app") { 
            sh "echo ${IMAGE_TAG}"
            sh "mvn clean install -DskipTests"
