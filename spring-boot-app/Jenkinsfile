@@ -56,19 +56,12 @@ spec:
         container('ubuntu') {
           dir("spring-boot-app") {
            sh "echo ${IMAGE_TAG}"
+           sh "mvn clean install -DskipTests"
           }
         }
       }
-    } 
-    stage('Deployment') {
-       steps {
-        container('python') {
-          dir("spring-boot-app")
-           sh "pip list"      
-      }
-     }
-    }
-     stage('Build and push image with Google Container Registry') {
+     } 
+     stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
           dir("spring-boot-app") {
@@ -85,6 +78,14 @@ spec:
           }
         }
       }
+    }
+    stage('python') {
+       steps {
+        container('python') {
+          dir("spring-boot-app")
+           sh "pip list"      
+       }
+     }
     }
   }
  } 
