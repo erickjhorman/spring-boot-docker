@@ -49,8 +49,7 @@ spec:
     stage('Compilation') {
        steps {
         container('maven') {
-          dir("tm-spring-boot-docker") { 
-           sh "echo ${IMAGE_TAG}"
+          dir("spring-boot-app") {
            sh "mvn clean install -DskipTests"
           }
         }
@@ -59,7 +58,7 @@ spec:
      stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
-          dir("tm-spring-boot-docker") { 
+          dir("spring-boot-app") { 
            sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=${IMAGE_TAG}"
          }
         } 
@@ -68,7 +67,7 @@ spec:
     stage('Deploy to kubernetes') {
       steps {
         container('kubectl') {
-          dir("tm-spring-boot-docker") {
+          dir("spring-boot-app") {
            sh "ls"
            sh "kubectl apply -f deployment.yaml"
           }
