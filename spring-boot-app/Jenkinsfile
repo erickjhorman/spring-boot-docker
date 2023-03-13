@@ -56,6 +56,7 @@ spec:
         container('ubuntu') {
           dir("spring-boot-app") {
            sh "echo ${IMAGE_TAG}"
+          }
         }
       }
     } 
@@ -63,9 +64,9 @@ spec:
        steps {
         container('python') {
           dir("spring-boot-app")
-           sh "pip list"            
-        }
+           sh "pip list"      
       }
+     }
     }
      stage('Build and push image with Google Container Registry') {
       steps {
@@ -87,4 +88,3 @@ spec:
     }
   }
  } 
-}
