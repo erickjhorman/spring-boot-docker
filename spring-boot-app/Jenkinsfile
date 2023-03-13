@@ -44,7 +44,7 @@ spec:
 }
   }
   stages {
-    stage('Comp') {
+    stage('Compilation') {
        steps {
         container('ubuntu') {
           sh "echo ${IMAGE_TAG}"
@@ -56,6 +56,15 @@ spec:
        steps {
         container('python') {
           sh "pip list"
+        }
+      }
+    }
+    stage('Deploy to kubernetes') {
+      steps {
+        container('kubectl') {
+          dir("spring-boot-app") {
+           sh "kubectl apply -f deployment.yaml"
+         }
         }
       }
     }
