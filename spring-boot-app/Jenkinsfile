@@ -51,7 +51,6 @@ spec:
         container('ubuntu') {
           dir("spring-boot-app") { 
            sh "echo ${IMAGE_TAG}"
-           sh "mvn clean install -DskipTests"
           }
         }
       }  
@@ -68,7 +67,8 @@ spec:
     stage('Deploy to kubernetes') {
       steps {
         container('kubectl') {
-          dir("spring-boot-app") { 
+          dir("spring-boot-app") {
+           sh "ls"
            sh "kubectl apply -f deployment.yaml"
           }
         }
