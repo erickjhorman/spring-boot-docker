@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Taji-SB-app
+  name: taji-sb-app
   labels:
-    app: Taji-SB-app
+    app: taji-sb-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: Taji-SB-app
+      app: taji-sb-app
   template:
     metadata:
       labels:
-        app: Taji-SB-app
+        app: taji-sb-app
     spec:
       containers:
-      - name: Taji-SB-app
-        image:  gcr.io/sandbox-io-289003/Taji-app:master.17 
+      - name: taji-sb-app
+        image:  gcr.io/sandbox-io-289003/taji-app:master.17 
         ports:
         - containerPort: 8080

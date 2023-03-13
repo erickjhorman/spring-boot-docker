@@ -40,6 +40,13 @@ spec:
     command:
     - cat
     tty: true
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:v1.6.0-debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 99d
 """
 }
   }
@@ -47,15 +54,25 @@ spec:
     stage('Compilation') {
        steps {
         container('ubuntu') {
-          sh "echo ${IMAGE_TAG}"
+          dir("spring-boot-app")
+           sh "echo ${IMAGE_TAG}"
         }
       }
-    }
-    
+    } 
     stage('Deployment') {
        steps {
         container('python') {
-          sh "pip list"
+          dir("spring-boot-app")
+           sh "pip list"            
+        }
+      }
+    }
+     stage('Build and push image with Google Container Registry') {
+      steps {
+        container('kaniko') {
+          dir("spring-boot-app") {
+           sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=${IMAGE_TAG}"
+         }
         }
       }
     }
@@ -64,7 +81,8 @@ spec:
         container('kubectl') {
           dir("spring-boot-app") {
            sh "kubectl apply -f deployment.yaml"
-         }
+          }
+
         }
       }
     }
