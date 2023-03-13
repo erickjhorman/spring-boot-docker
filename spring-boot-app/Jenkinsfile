@@ -54,7 +54,7 @@ spec:
     stage('Compilation') {
        steps {
         container('ubuntu') {
-          dir("spring-boot-app")
+          dir("spring-boot-app") {
            sh "echo ${IMAGE_TAG}"
         }
       }
@@ -82,7 +82,6 @@ spec:
           dir("spring-boot-app") {
            sh "kubectl apply -f deployment.yaml"
           }
-
         }
       }
     }
