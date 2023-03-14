@@ -36,7 +36,8 @@ spec:
     - cat
     tty: true
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:v1.6.0
+    image: gcr.io/kaniko-project/executor:v1.6.0-debug
+
     imagePullPolicy: Always
     command:
     - sleep
@@ -59,7 +60,8 @@ spec:
       steps {
         container('kaniko') {
           dir("spring-boot-app") { 
-           sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true --destination=${IMAGE_TAG}"
+           sh echo "{\"auths\":{\"registry.mydomain.de/myusername/mytag\":{\"username\":\"myGitusername\",\"password\":\"myGitpassword\"}}}" > /kaniko/.docker/config.json"
+           sh "/kaniko/executor -f `pwd`/Dockerfile -c `pwd` --insecure --skip-tls-verify --cache=true--context $spring-boot-app --dockerfile $spring-boot-app/Dockerfile --destination=${IMAGE_TAG}"mytag:$CI_COMMIT_SHORT_SHA"
          }
         } 
       }
