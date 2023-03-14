@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: taji-sb-app
-        image:  gcr.io/sandbox-io-289003/taji-app:master.17 
+        image:  gcr.io/sandbox-io-289003/Taj-app-1:master.17 
         ports:
         - containerPort: 8080
