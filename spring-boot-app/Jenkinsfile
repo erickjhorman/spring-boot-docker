@@ -55,6 +55,11 @@ spec:
           }
         }
       }  
+     }
+     stage("development") {
+         withEnv(['JENKINS_NODE_COOKIE= route']) {
+          sh 'nohup ./mvnw spring-boot:run -Dspring.profiles.active=e1 &' 
+       }
      } 
      stage('Build and push image with GCR') {
       steps {
