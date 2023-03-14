@@ -1,7 +1,7 @@
 pipeline {
   environment {
     PROJECT = "sandbox-io-289003"
-    APP_NAME = "Taj-App-1"
+    APP_NAME = "taj-App-1"
     FE_SVC_NAME = "${APP_NAME}-frontend"
     CLUSTER = "jenkins-cd"
     CLUSTER_ZONE = "us-east1-d"
@@ -11,7 +11,7 @@ pipeline {
 
   agent {
     kubernetes {
-      label 'build-deploy-agent'
+      label 'taj-agent'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
