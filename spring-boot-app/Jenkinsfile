@@ -37,12 +37,16 @@ spec:
     tty: true
   - name: kaniko
     image: gcr.io/kaniko-project/executor:v1.6.0-debug
-
     imagePullPolicy: Always
     command:
     - sleep
     args:
     - 99d
+  - name: python
+    image: python:3
+    command:
+    - cat
+    tty: true
 """
 }
   }
@@ -51,11 +55,20 @@ spec:
        steps {
         container('maven') {
           dir("spring-boot-app") {
-           sh "mvn clean install -DskipTests"
+           sh "mvn -v clean install -DskipTests"
           }
         }
       }  
      } 
+     stage('dev') {
+       steps {
+       container('python') {
+          dir("spring-boot-app") {
+           sh "pip list"
+          }  
+       }
+    }       
+  }
      stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
