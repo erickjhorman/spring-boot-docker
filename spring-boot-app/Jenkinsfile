@@ -63,9 +63,7 @@ spec:
      stage('dev') {
        steps {
        container('python') {
-          dir("spring-boot-app") {
-           sh "pip list"
-          }  
+          sh "pip list" 
        }
     }       
   }
