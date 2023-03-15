@@ -42,11 +42,6 @@ spec:
     - sleep
     args:
     - 99d
-  - name: python
-    image: python:3
-    command:
-    - cat
-    tty: true
 """
 }
   }
@@ -60,13 +55,6 @@ spec:
         }
       }  
      } 
-     stage('dev') {
-       steps {
-       container('python') {
-          sh "pip list" 
-       }
-    }       
-  }
      stage('Build and push image with GCR') {
       steps {
         container('kaniko') {
