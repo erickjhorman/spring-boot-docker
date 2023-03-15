@@ -50,6 +50,7 @@ spec:
        steps {
         container('maven') {
           dir("spring-boot-app") {
+           sh "mvn -v"
            sh "mvn clean install -DskipTests"
           }
         }
