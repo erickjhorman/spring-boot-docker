@@ -70,6 +70,7 @@ spec:
       steps {
         container('kubectl') {
           dir("spring-boot-app") {
+           sh "kubectl apply -f configmap.yaml" 
            sh "kubectl apply -f deployment.yaml"
            sh "kubectl apply -f service.yaml"
           }

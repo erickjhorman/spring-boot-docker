@@ -19,3 +19,18 @@ spec:
         image:  gcr.io/sandbox-io-289003/taj-app-1:master.61 
         ports:
         - containerPort: 8080
+    spec:
+     
+      containers: 
+      - env:
+        - name: YOUR_NAME
+          valueFrom:
+            configMapKeyRef: 
+              name: taji-config
+              key: YOUR_NAME
+        image: gcr.io/sandbox-io-289003/taj-app-1:master.61
+        imagePullPolicy: IfNotPresent
+        name: taji-sb-app
+        ports:
+        - containerPort: 8080
+          protocol: TCP

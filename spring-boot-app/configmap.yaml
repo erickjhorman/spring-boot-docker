@@ -1,0 +1,7 @@
+apiversion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: taji-config
+data:
+YOUR_NAME: Taji  
