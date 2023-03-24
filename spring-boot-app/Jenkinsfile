@@ -69,10 +69,10 @@ spec:
     stage('Deploy to kubernetes') {
       steps {
         container('kubectl') {
-          dir("spring-boot-app") {
-           sh "kubectl apply -f configmap.yaml" 
+          dir("spring-boot-app") { 
            sh "kubectl apply -f deployment.yaml"
            sh "kubectl apply -f service.yaml"
+           sh "kubectl apply -f configmap.yaml"
           }
         }
       }
