@@ -20,7 +20,7 @@ spec:
         ports:
         - containerPort: 8080
       - env:
-        - name: YOUR_NAME
+        - name: your_name
           valueFrom:
             configMapKeyRef: 
               name: taji-config
