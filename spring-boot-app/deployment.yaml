@@ -15,14 +15,14 @@ spec:
         app: taji-sb-app
     spec:
       containers:
-      - env:
-        - name: YOUR_NAME
-          valueFrom:
-            configMapKeyRef: 
-              name: taji-config
-              key: YOUR_NAME
       - name: taji-sb-app
         image:  gcr.io/sandbox-io-289003/taj-app-1:master.80 
         ports:
         - containerPort: 8080
+        env:
+        - name: YOUR_NAME
+          valueFrom:
+            configMapKeyRef: 
+              name: taji-config
+              key: YOUR_NAME 
  
