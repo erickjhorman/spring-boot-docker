@@ -23,5 +23,4 @@ public class SpringBootAppApplication {
 	public String getGreeting(){
 		return "Hello " + yourName;
 	}
-
 }

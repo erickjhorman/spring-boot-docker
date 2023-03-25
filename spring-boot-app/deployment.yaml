@@ -25,4 +25,3 @@ spec:
             configMapKeyRef: 
               name: taji-config
               key: YOUR_NAME 
- 

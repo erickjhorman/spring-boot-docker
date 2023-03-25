@@ -12,9 +12,3 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-    clusterIP: 10.228.3.22
-  type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: 34.23.168.251
