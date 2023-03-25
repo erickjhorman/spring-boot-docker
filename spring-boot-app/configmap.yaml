@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: taji-config
 data:
-YOUR_NAME: Taji  
+  YOUR_NAME: Taji  
