@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.labels }}
+  labels:
+    app: {{ .Values.app.labels }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.labels }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.labels }}
+    spec:
+      containers:
+      - name: {{ .Values.app.labels }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+        - name: YOUR_NAME
+          valueFrom:
+            configMapKeyRef: 
+              name: {{ .Values.app.name }}
+              key: YOUR_NAME 

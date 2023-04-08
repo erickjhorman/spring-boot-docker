@@ -30,7 +30,7 @@ spec:
     - cat
     tty: true
   - name: kubectl
-    image: gcr.io/cloud-builders/kubectl
+    image: dtzar/helm-kubectl:3.11
     imagePullPolicy: IfNotPresent
     command:
     - cat
@@ -70,9 +70,7 @@ spec:
       steps {
         container('kubectl') {
           dir("spring-boot-app") { 
-           sh "kubectl apply -f deployment.yaml"
-           sh "kubectl apply -f service.yaml"
-           sh "kubectl apply -f configmap.yaml"
+           sh "helm template  taj ./taj-spring-chart/ --set image.tag=${env.BRANCH_NAME}.${env.BUILD_NUMBER} | kubectl apply -f - "
           }
         }
       }
