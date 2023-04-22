@@ -48,7 +48,7 @@ spec:
   stages {
     stage('Release') {
       when {
-                branch 'master'
+                branch 'develop'
             }
       steps {
         withCredentials([string(credentialsId: 'taji-text', variable: 'TOKEN')]) {
