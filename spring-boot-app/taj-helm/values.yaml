@@ -15,8 +15,8 @@ app:
   name: "taj-helm-map"
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "taj-helm"
+fullnameOverride: "taj-helm-map"
 
 serviceAccount:
   # Specifies whether a service account should be created
