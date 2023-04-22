@@ -29,10 +29,6 @@ spec:
     command:
     - cat
     tty: true
-    - name: git
-    image: jlrigau/maven-git
-    imagePullPolicy: IfNotPresent
-    command:
   - name: kubectl
     image: dtzar/helm-kubectl:3.11
     imagePullPolicy: IfNotPresent
