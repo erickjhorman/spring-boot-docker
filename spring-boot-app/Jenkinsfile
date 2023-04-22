@@ -106,7 +106,7 @@ spec:
       steps {
         container('kubectl') {
           dir("spring-boot-app") { 
-           sh "helm template  taj ./taj-spring-chart/ --set image.tag=${env.BRANCH_NAME}.${env.BUILD_NUMBER} | kubectl apply -f - "
+           sh "helm template  taj ./taj-helm/ --set image.tag=${env.BRANCH_NAME}.${env.BUILD_NUMBER} | kubectl apply -f - "
           }
         }
       }
