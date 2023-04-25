@@ -1,5 +1,6 @@
 package com.example.dockerize.springbootapp;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,11 @@ public class SpringBootAppApplication {
 		SpringApplication.run(SpringBootAppApplication.class, args);
 	}
 
+	@Value("${YOUR_NAME}")
+	private String yourName;
+
 	@GetMapping()
 	public String getGreeting(){
-		return "Hello spring boot application";
+		return "Hello " + yourName;
 	}
 }
